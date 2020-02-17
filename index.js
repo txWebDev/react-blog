@@ -2,10 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const config = require('./config/keys');
 const { User } = require('./models/user');
 const app = express();
 //DDBB connection
-mongoose.connect('mongodb+srv://admin-jose:<lyxvlonx>@cluster0-9yqrr.mongodb.net/blog?retryWrites=true&w=majority', 
+mongoose.connect(config.mongoURI, 
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
