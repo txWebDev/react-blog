@@ -24,10 +24,11 @@ app.get('/', (req,res)=>{
 });
 app.post('/api/users/register', (req,res)=>{
     const user = new User(req.body);
+    console.log(user);
     user.save((error, userData)=>{
-        if(error) return res.json({sucess: false, err})
+        if(error) return res.status(400).json({sucess: false, error});
+        return res.status(200).json({sucess: true})
     });
-    return res.status(200).json({sucess: true})
 });
 
 const port = 5000;

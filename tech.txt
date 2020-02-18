@@ -3,8 +3,10 @@ MongoDB Atlas
 Git and GitHub
 body parser npm 
 cookie parser npm
+bcrypt npm hash password
 nodemon
 environment variables
+user Schema hash password
 
 
 
