@@ -11,16 +11,24 @@ mongoose.connect(config.mongoURI,
         useNewUrlParser: true,
         useUnifiedTopology: true,
     }
-)
-.then(()=>console.log('DDBB connected'))
-.catch((error) => console.log('DDBB connection error: ', error))
+    )
+    .then(()=>console.log('DDBB connected'))
+    .catch((error) => console.log('DDBB connection error: ', error))
 //Middleware
+const { auth } = require('./middleware/auth');
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 //Routing
-app.get('/', (req,res)=>{
-    res.send('Hello World');
+app.get('/api/user/auth', auth, (req,res)=>{
+    res.status(200).json({
+        _id: req.user._id,
+        email: req.user.email,
+        name: req.user.name,
+        lastName: req.user.lastName,
+        isAuth: true
+
+    });
 });
 app.post('/api/users/register', (req,res)=>{
     const user = new User(req.body);
@@ -38,7 +46,7 @@ app.post('/api/users/login', (req,res)=>{
             }
             userData.generateToken((error, userData)=>{
                 if(error) return res.status(400).json({success: false, error});
-                res.cookie('x-auth', userData.token).status(200).json({success: true});
+                res.cookie('x_auth', userData.token).status(200).json({success: true});
     
             });
         });
