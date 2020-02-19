@@ -24,11 +24,26 @@ app.get('/', (req,res)=>{
 });
 app.post('/api/users/register', (req,res)=>{
     const user = new User(req.body);
-    console.log(user);
     user.save((error, userData)=>{
-        if(error) return res.status(400).json({sucess: false, error});
-        return res.status(200).json({sucess: true})
+        if(error) return res.status(400).json({success: false, error});
+        return res.status(200).json({success: true, userData})
     });
+});
+app.post('/api/users/login', (req,res)=>{
+    User.findOne({email: req.body.email}, (error, userData)=>{
+        if(!userData) return res.status(400).json({success: false, error: 'User not found'});
+        userData.comparePassword(req.body.password, (error, isMatch) => {
+            if(!isMatch){
+                return res.status(401).json({sucess: false, error: 'Wrong password'});
+            }
+            userData.generateToken((error, userData)=>{
+                if(error) return res.status(400).json({success: false, error});
+                res.cookie('x-auth', userData.token).status(200).json({success: true});
+    
+            });
+        });
+    });
+
 });
 
 const port = 5000;

@@ -6,7 +6,10 @@ cookie parser npm
 bcrypt npm hash password
 nodemon
 environment variables
+user Schema methods
 user Schema hash password
+user Schema generate token
+cookie x-auth
 
 
 
