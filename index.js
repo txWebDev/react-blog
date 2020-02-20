@@ -53,6 +53,13 @@ app.post('/api/users/login', (req,res)=>{
     });
 
 });
+app.get('/api/user/logout', auth, (req, res)=>{
+    User.findOneAndUpdate({"_id": req.user.id}, {token: ""}, (error, userData)=>{
+        if(error) return res.json({success: false, error: error});
+        
+        return res.status(200).json({success: true});
+    });
+});
 
 const port = 5000;
 app.listen(port, ()=>console.log(`Server listening on port ${port}`));
